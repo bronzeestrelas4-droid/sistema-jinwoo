@@ -1,248 +1,110 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="theme-color" content="#040914" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <title>SISTEMA // JOGADOR</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23040914'/%3E%3Crect x='8' y='8' width='84' height='84' rx='14' fill='none' stroke='%2300e5ff' stroke-width='5'/%3E%3Ctext x='50' y='67' font-family='sans-serif' font-weight='bold' font-size='54' fill='%2300e5ff' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E" />
-  <style>
-    :root {
-      --bg-dark: #040914;
-      --panel-bg: rgba(8, 20, 42, 0.92);
-      --border-glow: #00d8ff;
-      --border-dim: rgba(0, 216, 255, 0.35);
-      --text-main: #e6f7ff;
-      --text-muted: #7aa6c2;
-      --accent: #00e5ff;
-      --danger: #ff3b5c;
-      --success: #00ff9d;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    body {
-      background-color: var(--bg-dark);
-      background-image:
-        radial-gradient(circle at 50% 0%, rgba(0, 162, 255, 0.16), transparent 60%),
-        linear-gradient(rgba(0, 216, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 216, 255, 0.03) 1px, transparent 1px);
-      background-size: 100% 100%, 24px 24px, 24px 24px;
-      color: var(--text-main);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      min-height: 100vh;
-      padding: 16px 14px 40px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 480px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .system-window {
-      background: var(--panel-bg);
-      border: 1.5px solid var(--border-glow);
-      box-shadow: 0 0 18px rgba(0, 216, 255, 0.25), inset 0 0 20px rgba(0, 140, 255, 0.12);
-      border-radius: 6px;
-      padding: 16px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .system-window::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
-    }
-
-    .window-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--border-dim);
-      padding-bottom: 10px;
-      margin-bottom: 14px;
-    }
-
-    .window-title {
-      font-size: 0.92rem;
-      font-weight: 800;
-      letter-spacing: 2px;
-      color: var(--accent);
-      text-shadow: 0 0 8px rgba(0, 229, 255, 0.6);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .badge {
-      font-size: 0.72rem;
-      padding: 2px 8px;
-      border: 1px solid var(--accent);
-      border-radius: 3px;
-      color: var(--accent);
-      background: rgba(0, 229, 255, 0.1);
-      font-weight: 700;
-    }
-
-    .player-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-bottom: 12px;
-    }
-
-    .level-box {
-      display: flex;
-      align-items: baseline;
-      gap: 6px;
-    }
-
-    .level-label {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      font-weight: 700;
-      letter-spacing: 1px;
-    }
-
-    .level-num {
-      font-size: 2.2rem;
-      font-weight: 900;
-      color: #ffffff;
-      text-shadow: 0 0 14px rgba(0, 229, 255, 0.8);
-      line-height: 1;
-    }
-
-    .rank-info {
-      text-align: right;
-    }
-
-    .rank-title {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--accent);
-    }
-
-    .rank-sub {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
-
-    .xp-wrapper {
-      margin-bottom: 16px;
-    }
-
-    .xp-labels {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-bottom: 5px;
-      font-weight: 600;
-    }
-
-    .xp-bar-bg {
-      width: 100%;
-      height: 10px;
-      background: rgba(0, 20, 40, 0.9);
-      border: 1px solid var(--border-dim);
-      border-radius: 3px;
-      overflow: hidden;
-    }
-
-    .xp-bar-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #0077ff, #00e5ff);
-      box-shadow: 0 0 10px var(--accent);
-      transition: width 0.35s ease;
-    }
-
-    .points-banner {
-      background: rgba(0, 229, 255, 0.12);
-      border: 1px dashed var(--accent);
-      border-radius: 4px;
-      padding: 8px 10px;
-      margin-bottom: 12px;
-      font-size: 0.8rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: #fff;
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    .stat-item {
-      background: rgba(4, 13, 28, 0.75);
-      border: 1px solid var(--border-dim);
-      border-radius: 4px;
-      padding: 9px 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .stat-name {
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      letter-spacing: 1px;
-    }
-
-    .stat-right {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .stat-val {
-      font-size: 1.05rem;
-      font-weight: 800;
-      color: #fff;
-    }
-
-    .btn-plus {
-      background: var(--accent);
-      color: #020813;
-      border: none;
-      width: 22px;
-      height: 22px;
-      border-radius: 3px;
-      font-weight: 900;
-      font-size: 1rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .timer-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(255, 59, 92, 0.1);
-      border: 1px solid rgba(255, 59, 92, 0.4);
-      border-radius:
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#040914">
+<meta name="mobile-web-app-capable" content="yes">
+<title>SISTEMA // JOGADOR</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23040914'/%3E%3Crect x='8' y='8' width='84' height='84' rx='14' fill='none' stroke='%2300e5ff' stroke-width='5'/%3E%3Ctext x='50' y='67' font-family='sans-serif' font-weight='bold' font-size='54' fill='%2300e5ff' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:radial-gradient(circle at 50% 0%,rgba(0,162,255,.18),transparent 60%),#040914;color:#e6f7ff;font-family:system-ui,-apple-system,sans-serif;min-height:100vh;padding:16px 14px 40px;display:flex;justify-content:center}
+.box{width:100%;max-width:480px;display:flex;flex-direction:column;gap:16px}
+.win{background:rgba(8,20,42,.95);border:1.5px solid #00d8ff;box-shadow:0 0 18px rgba(0,216,255,.28),inset 0 0 18px rgba(0,140,255,.12);border-radius:6px;padding:16px}
+.hdr{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(0,216,255,.35);padding-bottom:10px;margin-bottom:14px}
+.ttl{font-size:.92rem;font-weight:800;letter-spacing:2px;color:#00e5ff;text-shadow:0 0 8px rgba(0,229,255,.6)}
+.bdg{font-size:.72rem;padding:2px 8px;border:1px solid #00e5ff;border-radius:3px;color:#00e5ff;background:rgba(0,229,255,.1);font-weight:700}
+.top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px}
+.lvl{font-size:2.2rem;font-weight:900;color:#fff;text-shadow:0 0 14px rgba(0,229,255,.8);line-height:1}
+.sub{font-size:.78rem;color:#7aa6c2;font-weight:700}
+.xpl{display:flex;justify-content:space-between;font-size:.75rem;color:#7aa6c2;margin-bottom:5px;font-weight:600}
+.bar{height:10px;background:#020b18;border:1px solid rgba(0,216,255,.35);border-radius:3px;overflow:hidden;margin-bottom:14px}
+.fil{height:100%;width:0%;background:linear-gradient(90deg,#0077ff,#00e5ff);box-shadow:0 0 10px #00e5ff;transition:width .35s}
+.pts{background:rgba(0,229,255,.12);border:1px dashed #00e5ff;border-radius:4px;padding:8px 10px;margin-bottom:12px;font-size:.8rem;display:none;justify-content:space-between;align-items:center}
+.grd{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.st{background:rgba(4,13,28,.8);border:1px solid rgba(0,216,255,.35);border-radius:4px;padding:9px 12px;display:flex;justify-content:space-between;align-items:center}
+.st b{font-size:.82rem;color:#7aa6c2;letter-spacing:1px}
+.st span{font-size:1.05rem;font-weight:800;color:#fff}
+.pls{background:#00e5ff;color:#020813;border:none;width:22px;height:22px;border-radius:3px;font-weight:900;margin-left:8px;cursor:pointer}
+.tmr{display:flex;justify-content:space-between;align-items:center;background:rgba(255,59,92,.1);border:1px solid rgba(255,59,92,.45);border-radius:4px;padding:8px 12px;margin-bottom:14px;font-size:.78rem;color:#ff8fa3;font-weight:600}
+.tmr span{font-family:monospace;font-size:.95rem;font-weight:800;color:#ff3b5c}
+.qi{background:rgba(4,13,28,.85);border:1px solid rgba(0,216,255,.35);border-radius:5px;padding:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
+.qi.ok{border-color:rgba(0,255,157,.45);background:rgba(0,40,30,.35)}
+.ql{display:flex;align-items:center;gap:12px;flex:1;cursor:pointer}
+.chk{width:22px;height:22px;min-width:22px;border:2px solid #00e5ff;border-radius:4px;display:flex;align-items:center;justify-content:center;font-weight:900;color:#020813}
+.qi.ok .chk{background:#00ff9d;border-color:#00ff9d}
+.qn{font-size:.92rem;font-weight:600;display:block}
+.qi.ok .qn{text-decoration:line-through;color:#7aa6c2}
+.qr{font-size:.72rem;color:#00e5ff;font-weight:600}
+.del{background:none;border:none;color:#7aa6c2;font-size:1.2rem;padding:4px 6px;cursor:pointer}
+.frm{margin-top:14px;padding-top:12px;border-top:1px solid rgba(0,216,255,.35);display:flex;flex-direction:column;gap:8px}
+.row{display:flex;gap:8px}
+input,select{background:#030a16;border:1px solid rgba(0,216,255,.35);color:#fff;padding:9px 10px;border-radius:4px;font-size:.85rem;width:100%}
+.btn{background:linear-gradient(90deg,#0077ff,#00c8ff);color:#020813;border:none;border-radius:4px;padding:10px 14px;font-weight:800;font-size:.82rem;cursor:pointer}
+.ft{display:flex;gap:8px}
+.gh{flex:1;background:rgba(8,20,42,.75);border:1px solid rgba(0,216,255,.35);color:#7aa6c2;padding:8px;border-radius:4px;font-size:.75rem;cursor:pointer}
+.tst{position:fixed;top:18px;left:50%;transform:translateX(-50%);background:rgba(4,18,38,.96);border:1.5px solid #00e5ff;color:#fff;padding:10px 18px;border-radius:4px;font-size:.85rem;font-weight:700;display:none;z-index:99;width:90%;max-width:400px;text-align:center}
+</style>
+</head>
+<body>
+<div id="tst" class="tst"></div>
+<div class="box">
+  <section class="win">
+    <div class="hdr"><div class="ttl">[ ! ] JANELA DE STATUS</div><span class="bdg" id="rnk">RANK E</span></div>
+    <div class="top">
+      <div><span class="sub">NÍVEL </span><span class="lvl" id="lvl">1</span></div>
+      <div style="text-align:right"><div style="font-size:.95rem;font-weight:700;color:#00e5ff" id="tit">Desperto</div><div class="sub">Classe: Jogador</div></div>
+    </div>
+    <div class="xpl"><span>EXPERIÊNCIA (XP)</span><span id="xpt">0 / 100</span></div>
+    <div class="bar"><div class="fil" id="xpf"></div></div>
+    <div class="pts" id="ptb"><span>Pontos disponíveis:</span><strong id="ptv" style="color:#00e5ff">0</strong></div>
+    <div class="grd" id="grd"></div>
+  </section>
+  <section class="win">
+    <div class="hdr"><div class="ttl">[ ! ] MISSÕES DIÁRIAS</div><span class="bdg" id="prg">0/0</span></div>
+    <div class="tmr"><span>TEMPO RESTANTE (PENALIDADE):</span><span id="clk">00:00:00</span></div>
+    <div id="lst"></div>
+    <form class="frm" id="frm">
+      <input id="inn" placeholder="Nova missão diária (ex: Ler 20 páginas)" required>
+      <div class="row">
+        <select id="ins"><option value="FOR">+1 FOR</option><option value="AGI">+1 AGI</option><option value="VIT">+1 VIT</option><option value="INT">+1 INT</option><option value="PER">+1 PER</option></select>
+        <select id="inx"><option value="25">+25 XP</option><option value="40" selected>+40 XP</option><option value="60">+60 XP</option></select>
+        <button type="submit" class="btn">ADICIONAR</button>
+      </div>
+    </form>
+  </section>
+  <div class="ft">
+    <button class="gh" onclick="rstDay()">Novo Dia (Resetar Missões)</button>
+    <button class="gh" onclick="rstAll()">Reiniciar Sistema</button>
+  </div>
+</div>
+<script>
+const K='jinwoo_system_v1',DEF={level:1,xp:0,maxXp:100,statPoints:0,stats:{FOR:10,AGI:10,VIT:10,INT:10,PER:10},lastDate:new Date().toDateString(),quests:[{id:1,name:'Corrida de 5 km',stat:'AGI',xp:45,done:false},{id:2,name:'Beber 2,5L de Água',stat:'VIT',xp:25,done:false},{id:3,name:'Treino Físico Diário',stat:'FOR',xp:40,done:false},{id:4,name:'Estudo & Programação (1h)',stat:'INT',xp:40,done:false}]};
+const cln=()=>JSON.parse(JSON.stringify(DEF));
+let S=(()=>{try{let v=JSON.parse(localStorage.getItem(K));if(!v)return cln();let t=new Date().toDateString();if(v.lastDate!==t){v.quests=v.quests.map(q=>({...q,done:false}));v.lastDate=t}return v}catch{return cln()}})();
+const sv=()=>localStorage.setItem(K,JSON.stringify(S));
+const msg=t=>{let e=document.getElementById('tst');e.textContent=t;e.style.display='block';clearTimeout(window._t);window._t=setTimeout(()=>e.style.display='none',2600)};
+const rnk=l=>l>=40?['RANK S','Monarca das Sombras']:l>=25?['RANK A','Caçador de Elite']:l>=15?['RANK B','Mestre Combatente']:l>=8?['RANK C','Caçador Veterano']:l>=4?['RANK D','Sobrevivente']:['RANK E','Desperto'];
+function tog(id){let q=S.quests.find(i=>i.id===id);if(!q)return;if(!q.done){q.done=true;S.xp+=q.xp;S.stats[q.stat]=(S.stats[q.stat]||10)+1;let u=0;while(S.xp>=S.maxXp){S.xp-=S.maxXp;S.level++;S.maxXp=Math.round(S.maxXp*1.25);S.statPoints+=3;u=1}msg(u?`[ SUBIU DE NÍVEL! ] Nível ${S.level} (+3 Pontos)`:`[ MISSÃO CONCLUÍDA ] +${q.xp} XP | +1 ${q.stat}`)}else{q.done=false;S.xp=Math.max(0,S.xp-q.xp);S.stats[q.stat]=Math.max(1,(S.stats[q.stat]||10)-1)}sv();ren()}
+function addP(k){if(S.statPoints>0){S.statPoints--;S.stats[k]++;sv();ren()}}
+function delQ(id){S.quests=S.quests.filter(q=>q.id!==id);sv();ren()}
+document.getElementById('frm').onsubmit=e=>{e.preventDefault();let i=document.getElementById('inn'),n=i.value.trim();if(!n)return;S.quests.push({id:Date.now(),name:n,stat:document.getElementById('ins').value,xp:+document.getElementById('inx').value,done:false});i.value='';sv();ren();msg('[ NOVA MISSÃO ADICIONADA ]')};
+function rstDay(){S.quests=S.quests.map(q=>({...q,done:false}));S.lastDate=new Date().toDateString();sv();ren();msg('[ MISSÕES REINICIADAS ]')}
+function rstAll(){if(confirm('Reiniciar nível e progresso do Sistema?')){S=cln();sv();ren();msg('[ SISTEMA REINICIADO ]')}}
+function ren(){
+  document.getElementById('lvl').textContent=S.level;
+  document.getElementById('xpt').textContent=`${S.xp} / ${S.maxXp}`;
+  document.getElementById('xpf').style.width=Math.min(100,S.xp/S.maxXp*100)+'%';
+  let[r,t]=rnk(S.level);document.getElementById('rnk').textContent=r;document.getElementById('tit').textContent=t;
+  let pb=document.getElementById('ptb');pb.style.display=S.statPoints>0?'flex':'none';document.getElementById('ptv').textContent=S.statPoints;
+  document.getElementById('grd').innerHTML=Object.entries(S.stats).map(([k,v])=>`<div class="st"><b>${k}</b><div><span>${v}</span>${S.statPoints>0?`<button class="pls" onclick="addP('${k}')">+</button>`:''}</div></div>`).join('');
+  document.getElementById('prg').textContent=`${S.quests.filter(q=>q.done).length}/${S.quests.length}`;
+  document.getElementById('lst').innerHTML=S.quests.map(q=>`<div class="qi ${q.done?'ok':''}"><div class="ql" onclick="tog(${q.id})"><div class="chk">${q.done?'✓':''}</div><div><span class="qn">${q.name}</span><span class="qr">+${q.xp} XP • +1 ${q.stat}</span></div></div><button class="del" onclick="delQ(${q.id})">×</button></div>`).join('');
+}
+setInterval(()=>{let n=new Date(),m=new Date();m.setHours(24,0,0,0);let d=m-n,p=v=>String(Math.floor(v)).padStart(2,'0');document.getElementById('clk').textContent=`${p(d/36e5)}:${p(d%36e5/6e4)}:${p(d%6e4/1e3)}`},1000);
+ren();
+</script>
+</body>
+</html>
