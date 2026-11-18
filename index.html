@@ -1,110 +1,747 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#040914">
-<meta name="mobile-web-app-capable" content="yes">
-<title>SISTEMA // JOGADOR</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23040914'/%3E%3Crect x='8' y='8' width='84' height='84' rx='14' fill='none' stroke='%2300e5ff' stroke-width='5'/%3E%3Ctext x='50' y='67' font-family='sans-serif' font-weight='bold' font-size='54' fill='%2300e5ff' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E">
-<style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{background:radial-gradient(circle at 50% 0%,rgba(0,162,255,.18),transparent 60%),#040914;color:#e6f7ff;font-family:system-ui,-apple-system,sans-serif;min-height:100vh;padding:16px 14px 40px;display:flex;justify-content:center}
-.box{width:100%;max-width:480px;display:flex;flex-direction:column;gap:16px}
-.win{background:rgba(8,20,42,.95);border:1.5px solid #00d8ff;box-shadow:0 0 18px rgba(0,216,255,.28),inset 0 0 18px rgba(0,140,255,.12);border-radius:6px;padding:16px}
-.hdr{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(0,216,255,.35);padding-bottom:10px;margin-bottom:14px}
-.ttl{font-size:.92rem;font-weight:800;letter-spacing:2px;color:#00e5ff;text-shadow:0 0 8px rgba(0,229,255,.6)}
-.bdg{font-size:.72rem;padding:2px 8px;border:1px solid #00e5ff;border-radius:3px;color:#00e5ff;background:rgba(0,229,255,.1);font-weight:700}
-.top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px}
-.lvl{font-size:2.2rem;font-weight:900;color:#fff;text-shadow:0 0 14px rgba(0,229,255,.8);line-height:1}
-.sub{font-size:.78rem;color:#7aa6c2;font-weight:700}
-.xpl{display:flex;justify-content:space-between;font-size:.75rem;color:#7aa6c2;margin-bottom:5px;font-weight:600}
-.bar{height:10px;background:#020b18;border:1px solid rgba(0,216,255,.35);border-radius:3px;overflow:hidden;margin-bottom:14px}
-.fil{height:100%;width:0%;background:linear-gradient(90deg,#0077ff,#00e5ff);box-shadow:0 0 10px #00e5ff;transition:width .35s}
-.pts{background:rgba(0,229,255,.12);border:1px dashed #00e5ff;border-radius:4px;padding:8px 10px;margin-bottom:12px;font-size:.8rem;display:none;justify-content:space-between;align-items:center}
-.grd{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.st{background:rgba(4,13,28,.8);border:1px solid rgba(0,216,255,.35);border-radius:4px;padding:9px 12px;display:flex;justify-content:space-between;align-items:center}
-.st b{font-size:.82rem;color:#7aa6c2;letter-spacing:1px}
-.st span{font-size:1.05rem;font-weight:800;color:#fff}
-.pls{background:#00e5ff;color:#020813;border:none;width:22px;height:22px;border-radius:3px;font-weight:900;margin-left:8px;cursor:pointer}
-.tmr{display:flex;justify-content:space-between;align-items:center;background:rgba(255,59,92,.1);border:1px solid rgba(255,59,92,.45);border-radius:4px;padding:8px 12px;margin-bottom:14px;font-size:.78rem;color:#ff8fa3;font-weight:600}
-.tmr span{font-family:monospace;font-size:.95rem;font-weight:800;color:#ff3b5c}
-.qi{background:rgba(4,13,28,.85);border:1px solid rgba(0,216,255,.35);border-radius:5px;padding:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
-.qi.ok{border-color:rgba(0,255,157,.45);background:rgba(0,40,30,.35)}
-.ql{display:flex;align-items:center;gap:12px;flex:1;cursor:pointer}
-.chk{width:22px;height:22px;min-width:22px;border:2px solid #00e5ff;border-radius:4px;display:flex;align-items:center;justify-content:center;font-weight:900;color:#020813}
-.qi.ok .chk{background:#00ff9d;border-color:#00ff9d}
-.qn{font-size:.92rem;font-weight:600;display:block}
-.qi.ok .qn{text-decoration:line-through;color:#7aa6c2}
-.qr{font-size:.72rem;color:#00e5ff;font-weight:600}
-.del{background:none;border:none;color:#7aa6c2;font-size:1.2rem;padding:4px 6px;cursor:pointer}
-.frm{margin-top:14px;padding-top:12px;border-top:1px solid rgba(0,216,255,.35);display:flex;flex-direction:column;gap:8px}
-.row{display:flex;gap:8px}
-input,select{background:#030a16;border:1px solid rgba(0,216,255,.35);color:#fff;padding:9px 10px;border-radius:4px;font-size:.85rem;width:100%}
-.btn{background:linear-gradient(90deg,#0077ff,#00c8ff);color:#020813;border:none;border-radius:4px;padding:10px 14px;font-weight:800;font-size:.82rem;cursor:pointer}
-.ft{display:flex;gap:8px}
-.gh{flex:1;background:rgba(8,20,42,.75);border:1px solid rgba(0,216,255,.35);color:#7aa6c2;padding:8px;border-radius:4px;font-size:.75rem;cursor:pointer}
-.tst{position:fixed;top:18px;left:50%;transform:translateX(-50%);background:rgba(4,18,38,.96);border:1.5px solid #00e5ff;color:#fff;padding:10px 18px;border-radius:4px;font-size:.85rem;font-weight:700;display:none;z-index:99;width:90%;max-width:400px;text-align:center}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#07070f" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>SISTEMA - Jogador</title>
+  <style>
+    :root {
+      --bg-dark: #07070f;
+      --panel-bg: rgba(12, 18, 36, 0.92);
+      --primary: #00d2ff;
+      --primary-glow: rgba(0, 210, 255, 0.45);
+      --danger: #ff2a55;
+      --danger-glow: rgba(255, 42, 85, 0.45);
+      --gold: #ffcc00;
+      --text-main: #e6f7ff;
+      --text-muted: #7a9bb8;
+    }
+
+    body.monarch-theme {
+      --bg-dark: #090512;
+      --panel-bg: rgba(20, 10, 38, 0.94);
+      --primary: #b042ff;
+      --primary-glow: rgba(176, 66, 255, 0.55);
+      --text-main: #f3e6ff;
+      --text-muted: #9c7ab8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      user-select: none;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 14px;
+      background-image: radial-gradient(circle at 50% 0%, var(--primary-glow) 0%, transparent 65%);
+      transition: all 0.4s ease;
+    }
+
+    .system-container {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding-bottom: 40px;
+    }
+
+    .system-window {
+      background: var(--panel-bg);
+      border: 1.5px solid var(--primary);
+      box-shadow: 0 0 18px var(--primary-glow), inset 0 0 12px rgba(0, 0, 0, 0.6);
+      border-radius: 6px;
+      padding: 16px;
+      position: relative;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .system-window.penalty-active {
+      border-color: var(--danger);
+      box-shadow: 0 0 22px var(--danger-glow), inset 0 0 15px rgba(255, 42, 85, 0.25);
+    }
+
+    .window-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--primary);
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+      letter-spacing: 1.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.92rem;
+      color: var(--primary);
+    }
+
+    .penalty-active .window-header {
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    .header-controls {
+      display: flex;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      background: transparent;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .icon-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* Status & XP */
+    .player-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+    }
+
+    .level-badge {
+      font-size: 1.65rem;
+      font-weight: 800;
+      text-shadow: 0 0 10px var(--primary-glow);
+    }
+
+    .job-title {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .xp-bar-bg {
+      width: 100%;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      margin-bottom: 6px;
+    }
+
+    .xp-bar-fill {
+      height: 100%;
+      background: var(--primary);
+      box-shadow: 0 0 10px var(--primary);
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    .xp-text {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 12px;
+      text-align: center;
+    }
+
+    .stat-box {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 8px 4px;
+      border-radius: 4px;
+    }
+
+    .stat-label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+    }
+
+    .stat-val {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    /* Quest List */
+    .quest-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      margin-bottom: 8px;
+      background: rgba(0, 0, 0, 0.35);
+      border-left: 3px solid var(--primary);
+      border-radius: 4px;
+    }
+
+    .quest-item.done {
+      opacity: 0.55;
+      border-left-color: #00ff88;
+    }
+
+    .quest-info h4 {
+      font-size: 0.92rem;
+      margin-bottom: 2px;
+    }
+
+    .quest-info span {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .quest-actions {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .btn-sys {
+      background: rgba(0, 210, 255, 0.12);
+      border: 1px solid var(--primary);
+      color: var(--primary);
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 0.78rem;
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+
+    body.monarch-theme .btn-sys {
+      background: rgba(176, 66, 255, 0.15);
+    }
+
+    .btn-sys:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .btn-danger {
+      background: rgba(255, 42, 85, 0.15);
+      border: 1px solid var(--danger);
+      color: var(--danger);
+    }
+
+    /* Timer Box */
+    .timer-display {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 2px;
+      margin: 8px 0;
+      color: var(--primary);
+      text-shadow: 0 0 12px var(--primary-glow);
+    }
+
+    .timer-controls {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    /* Dungeon */
+    .dungeon-card {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px dashed var(--primary);
+      padding: 12px;
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .rank-tag {
+      background: var(--primary);
+      color: #000;
+      font-weight: 900;
+      padding: 2px 7px;
+      border-radius: 3px;
+      font-size: 0.75rem;
+      margin-right: 6px;
+    }
+
+    /* Toast Notification */
+    #sys-toast {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-120px);
+      background: var(--panel-bg);
+      border: 1.5px solid var(--primary);
+      box-shadow: 0 0 20px var(--primary-glow);
+      color: var(--text-main);
+      padding: 12px 20px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      z-index: 999;
+      transition: transform 0.35s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    #sys-toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .footer-actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 6px;
+    }
+  </style>
 </head>
 <body>
-<div id="tst" class="tst"></div>
-<div class="box">
-  <section class="win">
-    <div class="hdr"><div class="ttl">[ ! ] JANELA DE STATUS</div><span class="bdg" id="rnk">RANK E</span></div>
-    <div class="top">
-      <div><span class="sub">NÍVEL </span><span class="lvl" id="lvl">1</span></div>
-      <div style="text-align:right"><div style="font-size:.95rem;font-weight:700;color:#00e5ff" id="tit">Desperto</div><div class="sub">Classe: Jogador</div></div>
-    </div>
-    <div class="xpl"><span>EXPERIÊNCIA (XP)</span><span id="xpt">0 / 100</span></div>
-    <div class="bar"><div class="fil" id="xpf"></div></div>
-    <div class="pts" id="ptb"><span>Pontos disponíveis:</span><strong id="ptv" style="color:#00e5ff">0</strong></div>
-    <div class="grd" id="grd"></div>
-  </section>
-  <section class="win">
-    <div class="hdr"><div class="ttl">[ ! ] MISSÕES DIÁRIAS</div><span class="bdg" id="prg">0/0</span></div>
-    <div class="tmr"><span>TEMPO RESTANTE (PENALIDADE):</span><span id="clk">00:00:00</span></div>
-    <div id="lst"></div>
-    <form class="frm" id="frm">
-      <input id="inn" placeholder="Nova missão diária (ex: Ler 20 páginas)" required>
-      <div class="row">
-        <select id="ins"><option value="FOR">+1 FOR</option><option value="AGI">+1 AGI</option><option value="VIT">+1 VIT</option><option value="INT">+1 INT</option><option value="PER">+1 PER</option></select>
-        <select id="inx"><option value="25">+25 XP</option><option value="40" selected>+40 XP</option><option value="60">+60 XP</option></select>
-        <button type="submit" class="btn">ADICIONAR</button>
+
+  <div id="sys-toast">[NOTIFICAÇÃO DO SISTEMA]</div>
+
+  <div class="system-container">
+    <!-- JANELA DE STATUS -->
+    <div class="system-window">
+      <div class="window-header">
+        <span>! STATUS DO JOGADOR</span>
+        <div class="header-controls">
+          <button class="icon-btn" onclick="toggleSound()" id="sound-btn">SOM: ON</button>
+          <button class="icon-btn" onclick="toggleTheme()" id="theme-btn">MONARCA</button>
+        </div>
       </div>
-    </form>
-  </section>
-  <div class="ft">
-    <button class="gh" onclick="rstDay()">Novo Dia (Resetar Missões)</button>
-    <button class="gh" onclick="rstAll()">Reiniciar Sistema</button>
+
+      <div class="player-top">
+        <div>
+          <span class="job-title" id="player-title">O Fraco</span>
+          <div class="level-badge">NÍVEL <span id="lvl-val">1</span></div>
+        </div>
+        <div style="text-align: right;">
+          <div class="job-title">SEQUÊNCIA</div>
+          <div style="font-weight: 800; color: var(--gold); font-size: 1.1rem;"><span id="streak-val">0</span> DIAS</div>
+        </div>
+      </div>
+
+      <div class="xp-bar-bg">
+        <div class="xp-bar-fill" id="xp-fill"></div>
+      </div>
+      <div class="xp-text">
+        <span>EXP</span>
+        <span><span id="xp-cur">0</span> / <span id="xp-max">100</span></span>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-label">FORÇA</div>
+          <div class="stat-val" id="stat-str">10</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">VIGOR</div>
+          <div class="stat-val" id="stat-vit">10</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">AGILIDADE</div>
+          <div class="stat-val" id="stat-agi">10</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ZONA DE PENALIDADE (OCULTA SE NÃO ATIVA) -->
+    <div class="system-window penalty-active" id="penalty-window" style="display: none;">
+      <div class="window-header">
+        <span>[AVISO: ZONA DE PENALIDADE]</span>
+      </div>
+      <p style="font-size: 0.85rem; margin-bottom: 10px; line-height: 1.4;">
+        Você falhou em completar a Missão Diária no prazo anterior. Sobreviva à punição para desbloquear suas missões normais:
+      </p>
+      <div style="background: rgba(255,42,85,0.12); padding: 10px; border-radius: 4px; margin-bottom: 12px; font-weight: 700; font-size: 0.9rem;" id="penalty-task">
+        Prancha Isométrica (3 min) + 50 Agachamentos
+      </div>
+      <button class="btn-sys btn-danger" style="width: 100%; padding: 10px;" onclick="clearPenalty()">
+        CONCLUIR PENALIDADE E SOBREVIVER
+      </button>
+    </div>
+
+    <!-- MISSÕES DIÁRIAS -->
+    <div class="system-window" id="quests-window">
+      <div class="window-header">
+        <span>! MISSÃO DIÁRIA: PREPARAÇÃO</span>
+        <span style="font-size: 0.72rem;" id="quest-date">HOJE</span>
+      </div>
+
+      <div id="quest-list"></div>
+
+      <div class="footer-actions">
+        <button class="btn-sys" style="flex: 1;" onclick="simulateNewDay()">NOVO DIA</button>
+        <button class="btn-sys btn-danger" onclick="triggerPenaltyTest()">TESTAR PENALIDADE</button>
+      </div>
+    </div>
+
+    <!-- CRONÔMETRO DE TREINO -->
+    <div class="system-window">
+      <div class="window-header">
+        <span>! CRONÔMETRO DE TREINO / DESCANSO</span>
+      </div>
+      <div class="timer-display" id="timer-display">00:00</div>
+      <div class="timer-controls">
+        <button class="btn-sys" onclick="setTimer(60)">1 MIN</button>
+        <button class="btn-sys" onclick="setTimer(180)">3 MIN</button>
+        <button class="btn-sys" onclick="toggleTimer()" id="timer-toggle">INICIAR</button>
+        <button class="btn-sys btn-danger" onclick="resetTimer()">ZERAR</button>
+      </div>
+    </div>
+
+    <!-- INSTÂNCIA DE DUNGEON -->
+    <div class="system-window">
+      <div class="window-header">
+        <span>! CHAVE DE DUNGEON INSTANTÂNEA</span>
+      </div>
+      <div class="dungeon-card">
+        <div>
+          <div style="margin-bottom: 4px;">
+            <span class="rank-tag" id="dg-rank">RANK E</span>
+            <strong style="font-size: 0.9rem;" id="dg-name">Desafio de Explosão</strong>
+          </div>
+          <div style="font-size: 0.78rem; color: var(--text-muted);" id="dg-desc">
+            3x15 Flexões Diamante + 3x20 Abdominal Remador
+          </div>
+        </div>
+        <button class="btn-sys" onclick="completeDungeon()">LIMPAR</button>
+      </div>
+    </div>
   </div>
-</div>
-<script>
-const K='jinwoo_system_v1',DEF={level:1,xp:0,maxXp:100,statPoints:0,stats:{FOR:10,AGI:10,VIT:10,INT:10,PER:10},lastDate:new Date().toDateString(),quests:[{id:1,name:'Corrida de 5 km',stat:'AGI',xp:45,done:false},{id:2,name:'Beber 2,5L de Água',stat:'VIT',xp:25,done:false},{id:3,name:'Treino Físico Diário',stat:'FOR',xp:40,done:false},{id:4,name:'Estudo & Programação (1h)',stat:'INT',xp:40,done:false}]};
-const cln=()=>JSON.parse(JSON.stringify(DEF));
-let S=(()=>{try{let v=JSON.parse(localStorage.getItem(K));if(!v)return cln();let t=new Date().toDateString();if(v.lastDate!==t){v.quests=v.quests.map(q=>({...q,done:false}));v.lastDate=t}return v}catch{return cln()}})();
-const sv=()=>localStorage.setItem(K,JSON.stringify(S));
-const msg=t=>{let e=document.getElementById('tst');e.textContent=t;e.style.display='block';clearTimeout(window._t);window._t=setTimeout(()=>e.style.display='none',2600)};
-const rnk=l=>l>=40?['RANK S','Monarca das Sombras']:l>=25?['RANK A','Caçador de Elite']:l>=15?['RANK B','Mestre Combatente']:l>=8?['RANK C','Caçador Veterano']:l>=4?['RANK D','Sobrevivente']:['RANK E','Desperto'];
-function tog(id){let q=S.quests.find(i=>i.id===id);if(!q)return;if(!q.done){q.done=true;S.xp+=q.xp;S.stats[q.stat]=(S.stats[q.stat]||10)+1;let u=0;while(S.xp>=S.maxXp){S.xp-=S.maxXp;S.level++;S.maxXp=Math.round(S.maxXp*1.25);S.statPoints+=3;u=1}msg(u?`[ SUBIU DE NÍVEL! ] Nível ${S.level} (+3 Pontos)`:`[ MISSÃO CONCLUÍDA ] +${q.xp} XP | +1 ${q.stat}`)}else{q.done=false;S.xp=Math.max(0,S.xp-q.xp);S.stats[q.stat]=Math.max(1,(S.stats[q.stat]||10)-1)}sv();ren()}
-function addP(k){if(S.statPoints>0){S.statPoints--;S.stats[k]++;sv();ren()}}
-function delQ(id){S.quests=S.quests.filter(q=>q.id!==id);sv();ren()}
-document.getElementById('frm').onsubmit=e=>{e.preventDefault();let i=document.getElementById('inn'),n=i.value.trim();if(!n)return;S.quests.push({id:Date.now(),name:n,stat:document.getElementById('ins').value,xp:+document.getElementById('inx').value,done:false});i.value='';sv();ren();msg('[ NOVA MISSÃO ADICIONADA ]')};
-function rstDay(){S.quests=S.quests.map(q=>({...q,done:false}));S.lastDate=new Date().toDateString();sv();ren();msg('[ MISSÕES REINICIADAS ]')}
-function rstAll(){if(confirm('Reiniciar nível e progresso do Sistema?')){S=cln();sv();ren();msg('[ SISTEMA REINICIADO ]')}}
-function ren(){
-  document.getElementById('lvl').textContent=S.level;
-  document.getElementById('xpt').textContent=`${S.xp} / ${S.maxXp}`;
-  document.getElementById('xpf').style.width=Math.min(100,S.xp/S.maxXp*100)+'%';
-  let[r,t]=rnk(S.level);document.getElementById('rnk').textContent=r;document.getElementById('tit').textContent=t;
-  let pb=document.getElementById('ptb');pb.style.display=S.statPoints>0?'flex':'none';document.getElementById('ptv').textContent=S.statPoints;
-  document.getElementById('grd').innerHTML=Object.entries(S.stats).map(([k,v])=>`<div class="st"><b>${k}</b><div><span>${v}</span>${S.statPoints>0?`<button class="pls" onclick="addP('${k}')">+</button>`:''}</div></div>`).join('');
-  document.getElementById('prg').textContent=`${S.quests.filter(q=>q.done).length}/${S.quests.length}`;
-  document.getElementById('lst').innerHTML=S.quests.map(q=>`<div class="qi ${q.done?'ok':''}"><div class="ql" onclick="tog(${q.id})"><div class="chk">${q.done?'✓':''}</div><div><span class="qn">${q.name}</span><span class="qr">+${q.xp} XP • +1 ${q.stat}</span></div></div><button class="del" onclick="delQ(${q.id})">×</button></div>`).join('');
-}
-setInterval(()=>{let n=new Date(),m=new Date();m.setHours(24,0,0,0);let d=m-n,p=v=>String(Math.floor(v)).padStart(2,'0');document.getElementById('clk').textContent=`${p(d/36e5)}:${p(d%36e5/6e4)}:${p(d%6e4/1e3)}`},1000);
-ren();
-</script>
+
+  <script>
+    // --- ÁUDIO SINTETIZADO (WEB AUDIO API) ---
+    let soundEnabled = true;
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    function playSystemSound(type = 'ping') {
+      if (!soundEnabled) return;
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      const now = audioCtx.currentTime;
+      if (type === 'ping') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(880, now);
+        osc.frequency.exponentialRampToValueAtTime(1320, now + 0.12);
+        gain.gain.setValueAtTime(0.15, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+        osc.start(now);
+        osc.stop(now + 0.25);
+      } else if (type === 'levelup') {
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(440, now);
+        osc.frequency.setValueAtTime(554, now + 0.1);
+        osc.frequency.setValueAtTime(659, now + 0.2);
+        osc.frequency.setValueAtTime(880, now + 0.3);
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+        osc.start(now);
+        osc.stop(now + 0.6);
+      } else if (type === 'alarm') {
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(220, now);
+        osc.frequency.linearRampToValueAtTime(140, now + 0.35);
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+        osc.start(now);
+        osc.stop(now + 0.4);
+      }
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      document.getElementById('sound-btn').innerText = soundEnabled ? 'SOM: ON' : 'SOM: OFF';
+      if (soundEnabled) playSystemSound('ping');
+    }
+
+    // --- ESTADO DO JOGADOR ---
+    const defaultState = {
+      level: 1,
+      xp: 0,
+      streak: 0,
+      monarchTheme: false,
+      inPenalty: false,
+      lastDate: new Date().toDateString(),
+      completedToday: { pushups: false, situps: false, squats: false, run: false }
+    };
+
+    let state = JSON.parse(localStorage.getItem('jinwoo_system_v2')) || defaultState;
+
+    function saveState() {
+      localStorage.setItem('jinwoo_system_v2', JSON.stringify(state));
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('sys-toast');
+      toast.innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2600);
+    }
+
+    // --- ESCALONAMENTO DINÂMICO ---
+    function getScaledTargets() {
+      const mult = 1 + (state.level - 1) * 0.15;
+      return {
+        pushups: Math.round(25 * mult),
+        situps: Math.round(30 * mult),
+        squats: Math.round(30 * mult),
+        run: (3 + (state.level - 1) * 0.25).toFixed(1)
+      };
+    }
+
+    function getTitle(lvl) {
+      if (lvl >= 30) return 'Monarca das Sombras';
+      if (lvl >= 20) return 'Caçador Rank S';
+      if (lvl >= 12) return 'Necromante';
+      if (lvl >= 6) return 'Caçador Desperto';
+      return 'O Fraco';
+    }
+
+    function getDungeonData(lvl) {
+      if (lvl >= 20) return { rank: 'RANK S', name: 'Templo de Cartenon', desc: '100 Flexões + 100 Abdominais + 5km Tiro Rápido', xp: 250 };
+      if (lvl >= 10) return { rank: 'RANK B', name: 'Castelo Demoníaco', desc: '4x20 Flexões Declinadas + 4x25 Abdominais', xp: 140 };
+      if (lvl >= 5) return { rank: 'RANK C', name: 'Covil de Kasaka', desc: '3x20 Flexões + 3x25 Agachamentos Salto', xp: 90 };
+      return { rank: 'RANK E', name: 'Fenda de Treino', desc: '3x15 Flexões + 3x20 Abdominal Remador', xp: 50 };
+    }
+
+    // --- RENDERIZAÇÃO ---
+    function render() {
+      if (state.monarchTheme) {
+        document.body.classList.add('monarch-theme');
+        document.getElementById('theme-btn').innerText = 'AZUL';
+      } else {
+        document.body.classList.remove('monarch-theme');
+        document.getElementById('theme-btn').innerText = 'MONARCA';
+      }
+
+      const xpMax = state.level * 100;
+      document.getElementById('lvl-val').innerText = state.level;
+      document.getElementById('player-title').innerText = getTitle(state.level);
+      document.getElementById('streak-val').innerText = state.streak;
+      document.getElementById('xp-cur').innerText = state.xp;
+      document.getElementById('xp-max').innerText = xpMax;
+      document.getElementById('xp-fill').style.width = `${Math.min(100, (state.xp / xpMax) * 100)}%`;
+
+      document.getElementById('stat-str').innerText = 10 + (state.level - 1) * 3;
+      document.getElementById('stat-vit').innerText = 10 + (state.level - 1) * 3;
+      document.getElementById('stat-agi').innerText = 10 + (state.level - 1) * 2;
+
+      // Penalidade vs Missões
+      document.getElementById('penalty-window').style.display = state.inPenalty ? 'block' : 'none';
+      document.getElementById('quests-window').style.opacity = state.inPenalty ? '0.35' : '1';
+      document.getElementById('quests-window').style.pointerEvents = state.inPenalty ? 'none' : 'auto';
+
+      const targets = getScaledTargets();
+      const quests = [
+        { key: 'pushups', title: 'Flexões de Braço', target: `${targets.pushups} repetições`, xp: 30 },
+        { key: 'situps', title: 'Abdominais', target: `${targets.situps} repetições`, xp: 30 },
+        { key: 'squats', title: 'Agachamentos', target: `${targets.squats} repetições`, xp: 30 },
+        { key: 'run', title: 'Corrida na Esteira', target: `${targets.run} km`, xp: 50 }
+      ];
+
+      const listEl = document.getElementById('quest-list');
+      listEl.innerHTML = '';
+
+      quests.forEach(q => {
+        const isDone = state.completedToday[q.key];
+        const div = document.createElement('div');
+        div.className = `quest-item ${isDone ? 'done' : ''}`;
+        div.innerHTML = `
+          <div class="quest-info">
+            <h4>${q.title}</h4>
+            <span>Meta: ${q.target} (+${q.xp} EXP)</span>
+          </div>
+          <div class="quest-actions">
+            <button class="btn-sys" ${isDone ? 'disabled' : ''} onclick="completeQuest('${q.key}', ${q.xp})">
+              ${isDone ? 'FEITO' : 'CONCLUIR'}
+            </button>
+          </div>
+        `;
+        listEl.appendChild(div);
+      });
+
+      const dg = getDungeonData(state.level);
+      document.getElementById('dg-rank').innerText = dg.rank;
+      document.getElementById('dg-name').innerText = dg.name;
+      document.getElementById('dg-desc').innerText = dg.desc;
+    }
+
+    function addXP(amount) {
+      state.xp += amount;
+      let leveledUp = false;
+      while (state.xp >= state.level * 100) {
+        state.xp -= state.level * 100;
+        state.level++;
+        leveledUp = true;
+      }
+      if (leveledUp) {
+        playSystemSound('levelup');
+        showToast(`[SUBIU DE NÍVEL! AGORA VOCÊ É NÍVEL ${state.level}]`);
+      } else {
+        playSystemSound('ping');
+        showToast(`[+${amount} EXP ADQUIRIDO]`);
+      }
+      saveState();
+      render();
+    }
+
+    function completeQuest(key, xp) {
+      if (state.completedToday[key]) return;
+      state.completedToday[key] = true;
+      addXP(xp);
+
+      const allDone = Object.values(state.completedToday).every(v => v);
+      if (allDone) {
+        state.streak++;
+        setTimeout(() => showToast('[MISSÃO DIÁRIA CONCLUÍDA! BÔNUS DE SEQUÊNCIA]'), 1200);
+        saveState();
+        render();
+      }
+    }
+
+    function completeDungeon() {
+      const dg = getDungeonData(state.level);
+      addXP(dg.xp);
+      showToast(`[DUNGEON ${dg.rank} LIMPA! +${dg.xp} EXP]`);
+    }
+
+    function toggleTheme() {
+      state.monarchTheme = !state.monarchTheme;
+      playSystemSound('ping');
+      saveState();
+      render();
+    }
+
+    // --- LÓGICA DE NOVO DIA E PENALIDADE ---
+    function checkDayRollover() {
+      const today = new Date().toDateString();
+      if (state.lastDate !== today) {
+        const allDone = Object.values(state.completedToday).every(v => v);
+        if (!allDone) {
+          state.inPenalty = true;
+          state.streak = 0;
+          playSystemSound('alarm');
+        }
+        state.completedToday = { pushups: false, situps: false, squats: false, run: false };
+        state.lastDate = today;
+        saveState();
+      }
+    }
+
+    function simulateNewDay() {
+      const allDone = Object.values(state.completedToday).every(v => v);
+      if (!allDone) {
+        state.inPenalty = true;
+        state.streak = 0;
+        playSystemSound('alarm');
+        showToast('[FALHA NA MISSÃO DIÁRIA! ZONA DE PENALIDADE ATIVADA]');
+      } else {
+        playSystemSound('ping');
+        showToast('[NOVO DIA INICIADO. MISSÕES RESETADAS]');
+      }
+      state.completedToday = { pushups: false, situps: false, squats: false, run: false };
+      saveState();
+      render();
+    }
+
+    function triggerPenaltyTest() {
+      state.inPenalty = true;
+      playSystemSound('alarm');
+      showToast('[PENALIDADE ATIVADA]');
+      saveState();
+      render();
+    }
+
+    function clearPenalty() {
+      state.inPenalty = false;
+      playSystemSound('levelup');
+      showToast('[VOCÊ SOBREVIVEU À ZONA DE PENALIDADE]');
+      saveState();
+      render();
+    }
+
+    // --- CRONÔMETRO ---
+    let timerSeconds = 0;
+    let timerInterval = null;
+
+    function updateTimerUI() {
+      const mins = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+      const secs = String(timerSeconds % 60).padStart(2, '0');
+      document.getElementById('timer-display').innerText = `${mins}:${secs}`;
+    }
+
+    function setTimer(sec) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      timerSeconds = sec;
+      document.getElementById('timer-toggle').innerText = 'INICIAR';
+      playSystemSound('ping');
+      updateTimerUI();
+    }
+
+    function toggleTimer() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        document.getElementById('timer-toggle').innerText = 'CONTINUAR';
+      } else {
+        if (timerSeconds === 0) timerSeconds = 60;
+        document.getElementById('timer-toggle').innerText = 'PAUSAR';
+        timerInterval = setInterval(() => {
+          if (timerSeconds > 0) {
+            timerSeconds--;
+            updateTimerUI();
+          } else {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            document.getElementById('timer-toggle').innerText = 'INICIAR';
+            playSystemSound('levelup');
+            showToast('[TEMPO ESGOTADO!]');
+          }
+        }, 1000);
+      }
+    }
+
+    function resetTimer() {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      timerSeconds = 0;
+      document.getElementById('timer-toggle').innerText = 'INICIAR';
+      updateTimerUI();
+    }
+
+    // Inicialização
+    checkDayRollover();
+    render();
+  </script>
 </body>
 </html>
